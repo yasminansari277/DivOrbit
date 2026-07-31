@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/Navbar";
 import { Hero } from "@/components/site/Hero";
 import { Services } from "@/components/site/Services";
@@ -11,10 +10,7 @@ import { Process } from "@/components/site/Process";
 import { Contact } from "@/components/site/Contact";
 import { Footer } from "@/components/site/Footer";
 import { Gallery } from "@/components/site/Gallery";
-export const Route = createFileRoute("/")(({
-    component: Index,
-}));
-function Index() {
+export default function App() {
     return (<div className="min-h-screen bg-[#0a0a12] text-white">
       <Navbar />
       <main>

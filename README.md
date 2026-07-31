@@ -2,7 +2,7 @@
 
 > **DevOrbit** is a premium, high-performance software engineering studio that helps businesses transform ambitious ideas into reliable, scalable, and beautifully designed digital products.
 
-This repository features the complete frontend and SSR web application for DevOrbit, designed with rich aesthetics, fluid interactive micro-animations, and a fully optimized React + Vite architecture.
+This repository features the complete frontend web application for DevOrbit, designed with rich aesthetics, fluid interactive micro-animations, and a fully optimized React + Vite architecture.
 
 ---
 
@@ -12,14 +12,13 @@ This repository features the complete frontend and SSR web application for DevOr
 - **Horizontal Gallery**: A smooth, auto-advancing carousel gallery with hover-triggered side navigation controls and optimized image-cover layouts.
 - **3D Tilt Profile Cards**: A high-end developer profiles section featuring cursor-following 3D tilt effects, custom hover rings, and unified actions linking directly to Git profiles.
 - **Modern Grid layouts**: Modular service offerings ("What We Do"), choosing criteria, processes, and testimonials styled with glassmorphism and subtle gradients.
-- **SEO & Performance Ready**: Native SSR hydration using **TanStack Start**, preloaded typography, custom SVG favicons, and comprehensive metadata.
+- **SEO & Performance Ready**: Preloaded typography, custom SVG favicons, and comprehensive metadata.
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [React 19](https://react.dev/) & [TanStack Start](https://tanstack.com/router/v1/docs/start/overview) (Server-Side Rendering)
-- **Routing & State**: [TanStack React Router](https://tanstack.com/router) & [React Query v5](https://tanstack.com/query)
+- **Framework**: [React 19](https://react.dev/) with [Vite](https://vite.dev/)
 - **Styling**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **Icons**: [Lucide React](https://lucide.dev/)
