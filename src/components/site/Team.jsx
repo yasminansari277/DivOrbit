@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Github } from "lucide-react";
+import { Github, Linkedin } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { motion } from "framer-motion";
 const team = [
@@ -8,14 +8,16 @@ const team = [
         role: "Co-Founder · Frontend Engineering",
         avatarUrl: "https://github.com/yasminansari277.png",
         githubUrl: "https://github.com/yasminansari277",
+        linkedinUrl: "https://www.linkedin.com/in/yasminansari066?utm_source=share_via&utm_content=profile&utm_medium=member_android",
         bio: "Focused on interfaces that feel considered — accessible, responsive, and paced to how people actually use them.",
         skills: ["React", "TypeScript", "Tailwind CSS", "Accessibility", "UI Systems"],
     },
     {
-        name: "Ali",
+        name: "Ali Shaikh",
         role: "Co-Founder · Backend Engineering",
         avatarUrl: "https://github.com/developer-ali16.png",
         githubUrl: "https://github.com/developer-ali16",
+        linkedinUrl: "https://www.linkedin.com/in/ali-shaikh-software-engineer/",
         bio: "Focused on building reliable APIs and data models that scale gracefully. Prefers boring, well-understood infrastructure over clever surprises.",
         skills: ["Python", "FastAPI", "PostgreSQL", "REST APIs", "Backend Architecture"],
     },
@@ -117,6 +119,11 @@ function MemberCard({ member, delay }) {
           <motion.a key="github" href={member.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on GitHub`} animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }} transition={{ duration: 0.2 }} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-sm font-medium text-white/70 transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
             <Github className="h-4 w-4"/>
             View GitHub Profile
+          </motion.a>
+
+          <motion.a key="linkedin" href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }} transition={{ duration: 0.25 }} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-sm font-medium text-white/70 transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
+            <Linkedin className="h-4 w-4"/>
+            View LinkedIn Profile
           </motion.a>
         </div>
       </div>

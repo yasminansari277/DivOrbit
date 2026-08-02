@@ -1,160 +1,29 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
-/* ── 3D Wireframe Sphere Canvas ── */
-function ThreeDObject() {
-    const canvasRef = useRef(null);
-    const mouse = useRef({ x: 0, y: 0 });
-    const frame = useRef(0);
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas)
-            return;
-        const ctx = canvas.getContext("2d");
-        if (!ctx)
-            return;
-        let animId;
-        let t = 0;
-        const resize = () => {
-            const parent = canvas.parentElement;
-            const size = Math.min(parent?.clientWidth ?? 480, 480);
-            canvas.width = size;
-            canvas.height = size;
-        };
-        resize();
-        const ro = new ResizeObserver(resize);
-        if (canvas.parentElement)
-            ro.observe(canvas.parentElement);
-        const onMouseMove = (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.current.x = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
-            mouse.current.y = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
-        };
-        window.addEventListener("mousemove", onMouseMove, { passive: true });
-        const rows = 16;
-        const cols = 24;
-        const R = 0.36;
-        function project(x, y, z, w, h) {
-            const fov = 3.5;
-            const s = fov / (fov + z);
-            return [x * s * w * 0.5 + w / 2, y * s * h * 0.5 + h / 2, s];
-        }
-        function rotY(x, y, z, a) {
-            return [x * Math.cos(a) + z * Math.sin(a), y, -x * Math.sin(a) + z * Math.cos(a)];
-        }
-        function rotX(x, y, z, a) {
-            return [x, y * Math.cos(a) - z * Math.sin(a), y * Math.sin(a) + z * Math.cos(a)];
-        }
-        function draw() {
-            const w = canvas.width;
-            const h = canvas.height;
-            ctx.clearRect(0, 0, w, h);
-            const angleY = t * 0.35 + mouse.current.x * 0.5;
-            const angleX = mouse.current.y * 0.3;
-            // latitude rings
-            for (let ri = 0; ri <= rows; ri++) {
-                const phi = (ri / rows) * Math.PI;
-                const pts = [];
-                for (let ci = 0; ci <= cols; ci++) {
-                    const theta = (ci / cols) * Math.PI * 2;
-                    let x = R * Math.sin(phi) * Math.cos(theta);
-                    let y = R * Math.cos(phi);
-                    let z = R * Math.sin(phi) * Math.sin(theta);
-                    [x, y, z] = rotY(x, y, z, angleY);
-                    [x, y, z] = rotX(x, y, z, angleX);
-                    pts.push(project(x, y, z, w, h));
-                }
-                ctx.beginPath();
-                pts.forEach(([px, py], i) => { if (i === 0)
-                    ctx.moveTo(px, py);
-                else
-                    ctx.lineTo(px, py); });
-                const avgZ = pts.reduce((a, p) => a + p[2], 0) / pts.length;
-                const alpha = 0.06 + avgZ * 0.28;
-                const p = ri / rows;
-                // violet → teal gradient
-                const r1 = Math.round(167 + (45 - 167) * p);
-                const g1 = Math.round(139 + (212 - 139) * p);
-                const b1 = Math.round(250 + (191 - 250) * p);
-                ctx.strokeStyle = `rgba(${r1},${g1},${b1},${alpha})`;
-                ctx.lineWidth = avgZ * 1.1;
-                ctx.stroke();
-            }
-            // longitude rings
-            for (let ci = 0; ci < cols; ci += 2) {
-                const theta = (ci / cols) * Math.PI * 2;
-                const pts = [];
-                for (let ri = 0; ri <= rows; ri++) {
-                    const phi = (ri / rows) * Math.PI;
-                    let x = R * Math.sin(phi) * Math.cos(theta);
-                    let y = R * Math.cos(phi);
-                    let z = R * Math.sin(phi) * Math.sin(theta);
-                    [x, y, z] = rotY(x, y, z, angleY);
-                    [x, y, z] = rotX(x, y, z, angleX);
-                    pts.push(project(x, y, z, w, h));
-                }
-                ctx.beginPath();
-                pts.forEach(([px, py], i) => { if (i === 0)
-                    ctx.moveTo(px, py);
-                else
-                    ctx.lineTo(px, py); });
-                const avgZ = pts.reduce((a, p) => a + p[2], 0) / pts.length;
-                const alpha = 0.04 + avgZ * 0.18;
-                const p = ci / cols;
-                const r1 = Math.round(167 + (45 - 167) * p);
-                const g1 = Math.round(139 + (212 - 139) * p);
-                const b1 = Math.round(250 + (191 - 250) * p);
-                ctx.strokeStyle = `rgba(${r1},${g1},${b1},${alpha})`;
-                ctx.lineWidth = avgZ * 0.7;
-                ctx.stroke();
-            }
-            // Subtle center glow
-            const [cx, cy] = project(0, 0, 0, w, h);
-            const grd = ctx.createRadialGradient(cx, cy, 0, cx, cy, w * 0.14);
-            grd.addColorStop(0, "rgba(124,58,237,0.18)");
-            grd.addColorStop(0.5, "rgba(13,148,136,0.07)");
-            grd.addColorStop(1, "transparent");
-            ctx.beginPath();
-            ctx.arc(cx, cy, w * 0.14, 0, Math.PI * 2);
-            ctx.fillStyle = grd;
-            ctx.fill();
-            // Orbiting particles (subtle)
-            for (let pi = 0; pi < 4; pi++) {
-                const orbitAngle = t * 0.7 + (pi / 4) * Math.PI * 2;
-                const orbitR = R * 1.1;
-                const tiltX = 0.35 + pi * 0.08;
-                let px = orbitR * Math.cos(orbitAngle);
-                let py = orbitR * Math.sin(orbitAngle) * Math.sin(tiltX);
-                let pz = orbitR * Math.sin(orbitAngle) * Math.cos(tiltX);
-                [px, py, pz] = rotY(px, py, pz, angleY);
-                [px, py, pz] = rotX(px, py, pz, angleX);
-                const [ppx, ppy, ps] = project(px, py, pz, w, h);
-                if (ps < 0.5)
-                    continue;
-                const isViolet = pi % 2 === 0;
-                ctx.beginPath();
-                ctx.arc(ppx, ppy, ps * 3, 0, Math.PI * 2);
-                ctx.fillStyle = isViolet ? `rgba(139,92,246,${ps * 0.8})` : `rgba(45,212,191,${ps * 0.8})`;
-                ctx.fill();
-                const grdP = ctx.createRadialGradient(ppx, ppy, 0, ppx, ppy, ps * 12);
-                grdP.addColorStop(0, isViolet ? "rgba(139,92,246,0.25)" : "rgba(45,212,191,0.25)");
-                grdP.addColorStop(1, "transparent");
-                ctx.beginPath();
-                ctx.arc(ppx, ppy, ps * 12, 0, Math.PI * 2);
-                ctx.fillStyle = grdP;
-                ctx.fill();
-            }
-            t += 0.007;
-            frame.current = requestAnimationFrame(draw);
-        }
-        draw();
-        return () => {
-            cancelAnimationFrame(frame.current);
-            ro.disconnect();
-            window.removeEventListener("mousemove", onMouseMove);
-        };
-    }, []);
-    return <canvas ref={canvasRef} className="h-full w-full" aria-hidden/>;
+import hero1 from "../../assets/gallery/image1.jpeg";
+import hero2 from "../../assets/gallery/image2.jpeg";
+import hero3 from "../../assets/gallery/image3.jpeg";
+import hero4 from "../../assets/gallery/image4.jpeg";
+import hero5 from "../../assets/gallery/image5.jpeg";
+import hero6 from "../../assets/gallery/image6.jpeg";
+import hero7 from "../../assets/gallery/image7.jpeg";
+import hero8 from "../../assets/gallery/image8.jpeg";
+/* 3D object removed — using subtle image slideshow instead */
+
+function Slideshow({ images = [], interval = 6000 }) {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    if (!images || images.length <= 1)
+      return;
+    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), interval);
+    return () => clearInterval(id);
+  }, [images, interval]);
+  return (
+    <div className="absolute inset-0">
+      {images.map((src, i) => (<img key={i} src={src} alt="" aria-hidden className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${i === idx ? "opacity-100" : "opacity-0"}`} />))}
+    </div>
+  );
 }
 const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 16 },
@@ -166,14 +35,14 @@ export function Hero() {
       {/* Subtle grid */}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-orbit-grid opacity-[0.035]"/>
 
-      {/* 3D object — right half, desktop only */}
-      <motion.div aria-hidden className="pointer-events-none absolute right-0 top-1/2 hidden -translate-y-1/2 lg:block" style={{ width: "clamp(380px, 44vw, 520px)", height: "clamp(380px, 44vw, 520px)" }} initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1] }}>
-        <ThreeDObject />
-        {/* Very subtle radial behind sphere */}
-        <div className="pointer-events-none absolute inset-0 rounded-full" style={{ background: "radial-gradient(circle, rgba(124,58,237,0.05) 0%, transparent 65%)" }}/>
-      </motion.div>
+            {/* Background video — full width */}
+            {/* Subtle slideshow of programming images (non-flashy) */}
+            <div aria-hidden className="absolute inset-0 z-0 h-full w-full overflow-hidden">
+              <Slideshow images={[hero1, hero2, hero3, hero4, hero5, hero6, hero7, hero8]} interval={6000} />
+              <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+            </div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Text area — max 60% width on large screens to not overlap 3D */}
         <div className="max-w-xl lg:max-w-2xl">
           {/* Badge */}

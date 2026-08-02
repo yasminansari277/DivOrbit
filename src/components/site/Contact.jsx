@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Check, Loader2, Send } from "lucide-react";
+import { Check, Loader2, Send, Mail } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -7,17 +7,15 @@ const services = [
   "Backend Development",
   "Frontend Development",
   "Full-Stack Web Development",
-  "REST API Development",
-  "Database Design & Integration",
-  "Website Development",
+  "Cloud & DevOps",
   "Maintenance & Technical Support",
 ];
 
 const budgets = [
-  "Under $5,000",
-  "$5,000 – $15,000",
-  "$15,000 – $40,000",
-  "$40,000+",
+  "Under $500",
+  "$500 – $1500",
+  "$1500 – $3000",
+  "$3000+",
   "Not sure yet",
 ];
 
@@ -194,6 +192,17 @@ export function Contact() {
                 </li>
               ))}
             </ul>
+
+            {/* Direct contact email */}
+            <div className="mt-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-white/40">Email</p>
+              <a href="mailto:hello@devorbit.com" className="mt-2 inline-flex items-center gap-3 text-sm font-medium text-white/75 hover:text-white">
+                <span className="rounded-full bg-white/6 p-2 text-violet-400">
+                  <Mail className="h-4 w-4" />
+                </span>
+                hello@devorbit.com
+              </a>
+            </div>
           </div>
 
           {/* Right — form */}

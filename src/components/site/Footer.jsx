@@ -39,15 +39,6 @@ export function Footer() {
               A software development studio building reliable, scalable frontend and
               backend systems for startups and businesses that care about craft.
             </p>
-            <div className="mt-5 flex items-center gap-2">
-              {[
-            { href: "#", label: "GitHub", Icon: Github },
-            { href: "#", label: "LinkedIn", Icon: Linkedin },
-            { href: "mailto:hello@devorbit.dev", label: "Email", Icon: Mail },
-        ].map(({ href, label, Icon }) => (<a key={label} href={href} aria-label={label} className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-white/[0.08] text-white/40 transition-all duration-200 hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
-                  <Icon className="h-4 w-4"/>
-                </a>))}
-            </div>
           </div>
 
           {/* Links */}
@@ -82,8 +73,8 @@ export function Footer() {
               </h3>
               <ul className="mt-4 space-y-2 text-sm text-white/40">
                 <li>
-                  <a href="mailto:hello@devorbit.dev" className="transition-colors duration-150 hover:text-white/75">
-                    hello@devorbit.dev
+                  <a href="mailto:devorbit@gmail.com" className="transition-colors duration-150 hover:text-white/75">
+                    devorbit.get@gmail.com
                   </a>
                 </li>
                 <li><a href="#" className="transition-colors duration-150 hover:text-white/75">GitHub</a></li>
