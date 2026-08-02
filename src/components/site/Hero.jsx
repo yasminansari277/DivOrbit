@@ -42,11 +42,11 @@ export function Hero() {
               <div className="absolute inset-0 bg-black/80 pointer-events-none opacity-100" />
             </div>
 
-      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" style={{ textShadow: "0 6px 20px rgba(0,0,0,0.75)" }}>
         {/* Text area — max 60% width on large screens to not overlap 3D */}
         <div className="max-w-xl lg:max-w-2xl">
           {/* Badge */}
-          <motion.div {...fadeUp(0)} className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-white/60">
+          <motion.div {...fadeUp(0)} className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-xs font-medium text-white/80">
             <Sparkles className="h-3.5 w-3.5 text-violet-400"/>
             Software Development Studio
           </motion.div>
@@ -59,7 +59,7 @@ export function Hero() {
           </motion.h1>
 
           {/* Subtext */}
-          <motion.p {...fadeUp(0.22)} className="mt-5 text-base leading-relaxed text-white/60 sm:text-lg">
+          <motion.p {...fadeUp(0.22)} className="mt-5 text-base leading-relaxed text-white/80 sm:text-lg">
             DevOrbit helps businesses transform ideas into reliable, scalable, and
             modern digital products through frontend and backend engineering.
           </motion.p>
@@ -85,7 +85,7 @@ export function Hero() {
                 <dt className="text-[11px] font-semibold uppercase tracking-wider text-violet-400">
                   {s.k}
                 </dt>
-                <dd className="mt-1 text-xs text-white/55 sm:text-sm">{s.v}</dd>
+                <dd className="mt-1 text-xs text-white/70 sm:text-sm">{s.v}</dd>
               </div>))}
           </motion.dl>
         </div>
