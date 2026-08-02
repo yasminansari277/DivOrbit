@@ -39,7 +39,7 @@ export function Hero() {
             {/* Subtle slideshow of programming images (non-flashy) */}
             <div aria-hidden className="absolute inset-0 z-0 h-full w-full overflow-hidden">
               <Slideshow images={[hero1, hero2, hero3, hero4, hero5, hero6, hero7, hero8]} interval={6000} />
-              <div className="absolute inset-0 bg-black/40 pointer-events-none" />
+              <div className="absolute inset-0 bg-black/80 pointer-events-none opacity-100" />
             </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
