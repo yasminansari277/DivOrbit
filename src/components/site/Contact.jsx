@@ -133,21 +133,61 @@ export function Contact() {
   }, [formState]);
 
   const onSubmit = async (e) => {
-    e.preventDefault();
-    setFormState("loading");
+  e.preventDefault();
+  setFormState("loading");
 
-    // Revolve for 1.4s then fire success
-    await new Promise((r) => setTimeout(r, 2200));
+  try {
+    const formData = new FormData(e.target);
 
-    setFormState("success");
-    setConfetti(true);
-    setTimeout(() => setConfetti(false), 2500);
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      company: formData.get("company") || "",
+      service_required: formData.get("service"),
+      project_budget: formData.get("budget"),
+      project_description: formData.get("description"),
+    };
 
-    setTimeout(() => {
+    console.log("Sending:", payload);
+
+    const response = await fetch(
+      "https://contact-us-xi3b.onrender.com/q/i&nqui@rieSEgZjaHJvbWUqCQgAEEUYOxjCAzIJCAAQRRg7GMIDMgkIARBFGDsYwgMyCQgCE",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      }
+    );
+
+    const data = await response.json();
+
+    console.log("FULL RESPONSE:", JSON.stringify(data, null, 2));
+
+    if (response.ok) {
+      setFormState("success");
+
+      setConfetti(true);
+      setTimeout(() => setConfetti(false), 2500);
+
+      setTimeout(() => {
+        setFormState("idle");
+        formRef.current?.reset();
+      }, 4500);
+    } else {
+      alert("Submission failed");
       setFormState("idle");
-      formRef.current?.reset();
-    }, 4500);
-  };
+    }
+  } catch (error) {
+  console.error("FULL ERROR:", error);
+
+  alert(error.message);
+
+  setFormState("idle");
+  console.log("PAYLOAD:", JSON.stringify(payload, null, 2));
+}
+};
 
   const inputCls = "w-full rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-white/30 outline-none transition-all duration-200";
   const inputStyle = {
@@ -196,11 +236,11 @@ export function Contact() {
             {/* Direct contact email */}
             <div className="mt-6">
               <p className="text-xs font-semibold uppercase tracking-[0.12em] text-white/40">Email</p>
-              <a href="mailto:hello@devorbit.com" className="mt-2 inline-flex items-center gap-3 text-sm font-medium text-white/75 hover:text-white">
+              <a href="mailto:divorbit.get@gmail.com" className="mt-2 inline-flex items-center gap-3 text-sm font-medium text-white/75 hover:text-white">
                 <span className="rounded-full bg-white/6 p-2 text-violet-400">
                   <Mail className="h-4 w-4" />
                 </span>
-                hello@devorbit.com
+                divorbit.get@gmail.com
               </a>
             </div>
           </div>

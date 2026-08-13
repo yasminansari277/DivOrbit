@@ -2,15 +2,15 @@ import { Server, Layout, Layers, Plug, Database, Globe, LifeBuoy, Smartphone, Cl
 import { useReveal } from "@/hooks/use-reveal";
 import { motion } from "framer-motion";
 const services = [
+   {
+    icon: Layout,
+    title: "Frontend Development",
+    description: "Modern, responsive, accessible, and interactive web interfaces built with care.",
+  },
   {
     icon: Server,
     title: "Backend Development",
     description: "Scalable APIs, business logic, database integration, authentication, and backend architecture.",
-  },
-  {
-    icon: Layout,
-    title: "Frontend Development",
-    description: "Modern, responsive, accessible, and interactive web interfaces built with care.",
   },
   {
     icon: Layers,
@@ -26,16 +26,6 @@ const services = [
     icon: Database,
     title: "Database Design & Integration",
     description: "Structured database architecture and reliable application integration.",
-  },
-  {
-    icon: Globe,
-    title: "Website Development",
-    description: "Professional websites for startups, businesses, and organizations.",
-  },
-  {
-    icon: Smartphone,
-    title: "Mobile App Development",
-    description: "Cross-platform mobile applications that deliver native-like experiences.",
   },
   {
     icon: Cloud,

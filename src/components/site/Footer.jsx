@@ -73,8 +73,8 @@ export function Footer() {
               </h3>
               <ul className="mt-4 space-y-2 text-sm text-white/40">
                 <li>
-                  <a href="mailto:devorbit@gmail.com" className="transition-colors duration-150 hover:text-white/75">
-                    devorbit.get@gmail.com
+                  <a href="mailto:divorbit.get@gmail.com" className="transition-colors duration-150 hover:text-white/75">
+                    divorbit.get@gmail.com
                   </a>
                 </li>
                 <li><a href="#" className="transition-colors duration-150 hover:text-white/75">GitHub</a></li>

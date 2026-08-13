@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Github, Linkedin } from "lucide-react";
 import { useReveal } from "@/hooks/use-reveal";
 import { motion } from "framer-motion";
@@ -70,7 +70,40 @@ export function Team() {
 function MemberCard({ member, delay }) {
     const { ref, tiltStyle, onMouseMove, onMouseLeave } = useTilt();
     const [hovered, setHovered] = useState(false);
-    return (<motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}>
+    const [isTouchDevice, setIsTouchDevice] = useState(false);
+
+    useEffect(() => {
+        if (typeof window === "undefined" || !window.matchMedia) {
+            return;
+        }
+
+        const mediaQuery = window.matchMedia("(hover: none)");
+        const updateDeviceState = () => {
+            setIsTouchDevice(mediaQuery.matches || window.innerWidth < 640);
+        };
+
+        updateDeviceState();
+
+        if (typeof mediaQuery.addEventListener === "function") {
+            mediaQuery.addEventListener("change", updateDeviceState);
+        } else {
+            mediaQuery.addListener(updateDeviceState);
+        }
+
+        window.addEventListener("resize", updateDeviceState);
+
+        return () => {
+            if (typeof mediaQuery.removeEventListener === "function") {
+                mediaQuery.removeEventListener("change", updateDeviceState);
+            } else {
+                mediaQuery.removeListener(updateDeviceState);
+            }
+            window.removeEventListener("resize", updateDeviceState);
+        };
+    }, []);
+
+    const showSocialLinks = hovered || isTouchDevice;
+    return (<motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }} className="group">
       <div ref={ref} onMouseMove={onMouseMove} onMouseLeave={() => { onMouseLeave(); setHovered(false); }} onMouseEnter={() => setHovered(true)} style={{
             ...tiltStyle,
             background: "rgba(255,255,255,0.03)",
@@ -114,14 +147,14 @@ function MemberCard({ member, delay }) {
             </li>))}
         </ul>
 
-        {/* Social icons — fade in on hover */}
-        <div className="mt-5 flex items-center gap-2 border-t border-white/[0.05] pt-4">
-          <motion.a key="github" href={member.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on GitHub`} animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }} transition={{ duration: 0.2 }} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-sm font-medium text-white/70 transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
+        {/* Social icons — fade in on hover or show on touch devices */}
+        <div className="mt-5 flex items-center gap-2.5 border-t border-white/[0.05] pt-4 opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100">
+          <motion.a key="github" href={member.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on GitHub`} animate={{ opacity: showSocialLinks ? 1 : 0, y: showSocialLinks ? 0 : 6 }} transition={{ duration: 0.2 }} whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2.5 text-sm font-medium text-white/70 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
             <Github className="h-4 w-4"/>
             View GitHub Profile
           </motion.a>
 
-          <motion.a key="linkedin" href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} animate={{ opacity: hovered ? 1 : 0, y: hovered ? 0 : 6 }} transition={{ duration: 0.25 }} className="inline-flex h-10 w-full items-center justify-center gap-2 rounded-lg border border-white/[0.08] bg-white/[0.02] text-sm font-medium text-white/70 transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
+          <motion.a key="linkedin" href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} animate={{ opacity: showSocialLinks ? 1 : 0, y: showSocialLinks ? 0 : 6 }} transition={{ duration: 0.25 }} whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2.5 text-sm font-medium text-white/70 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
             <Linkedin className="h-4 w-4"/>
             View LinkedIn Profile
           </motion.a>
