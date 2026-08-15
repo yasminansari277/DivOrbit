@@ -148,15 +148,17 @@ function MemberCard({ member, delay }) {
         </ul>
 
         {/* Social icons — fade in on hover or show on touch devices */}
-        <div className="mt-5 flex items-center gap-2.5 border-t border-white/[0.05] pt-4 opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100">
-          <motion.a key="github" href={member.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on GitHub`} animate={{ opacity: showSocialLinks ? 1 : 0, y: showSocialLinks ? 0 : 6 }} transition={{ duration: 0.2 }} whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2.5 text-sm font-medium text-white/70 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
-            <Github className="h-4 w-4"/>
-            View GitHub Profile
+        <div className="mt-5 flex flex-col gap-2.5 border-t border-white/[0.05] pt-4 opacity-100 transition-all duration-300 sm:opacity-0 sm:group-hover:opacity-100">
+          <motion.a key="github" href={member.githubUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on GitHub`} animate={{ opacity: showSocialLinks ? 1 : 0, y: showSocialLinks ? 0 : 6 }} transition={{ duration: 0.2 }} whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="inline-flex h-9 sm:h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-white/70 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
+            <Github className="h-3.5 w-3.5 sm:h-4 sm:w-4"/>
+            <span className="hidden sm:inline">View GitHub Profile</span>
+            <span className="sm:hidden">GitHub</span>
           </motion.a>
 
-          <motion.a key="linkedin" href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} animate={{ opacity: showSocialLinks ? 1 : 0, y: showSocialLinks ? 0 : 6 }} transition={{ duration: 0.25 }} whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2.5 text-sm font-medium text-white/70 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
-            <Linkedin className="h-4 w-4"/>
-            View LinkedIn Profile
+          <motion.a key="linkedin" href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" aria-label={`${member.name} on LinkedIn`} animate={{ opacity: showSocialLinks ? 1 : 0, y: showSocialLinks ? 0 : 6 }} transition={{ duration: 0.25 }} whileHover={{ y: -2, scale: 1.01 }} whileTap={{ scale: 0.98 }} className="inline-flex h-9 sm:h-11 w-full items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.02] px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-white/70 shadow-[0_0_0_1px_rgba(255,255,255,0.02)] transition-all hover:border-violet-500/30 hover:bg-violet-500/10 hover:text-violet-400">
+            <Linkedin className="h-3.5 w-3.5 sm:h-4 sm:w-4"/>
+            <span className="hidden sm:inline">View LinkedIn Profile</span>
+            <span className="sm:hidden">LinkedIn</span>
           </motion.a>
         </div>
       </div>
